@@ -1,9 +1,9 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, SetStateAction, useState } from 'react';
 import './Currencies.scss';
 
 // Passage de props
 // 1ère étape : Créer le contrat de props
-type Currency = {
+export type Currency = {
   description: string;
   code: string;
   rate: number;
@@ -17,7 +17,9 @@ type CurrenciesProps = {
 function Currencies({ currencies }: CurrenciesProps) {
   // Je créer une variable d'état que je vais chercher à lier à mon input
   const [searchText, setSearchText] = useState('');
-  
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(
+    null
+  );
 
   function handleChangeSearchTextInput(event: ChangeEvent<HTMLInputElement>) {
     // Je récupère la nouvelle valeur à enregister
@@ -34,6 +36,10 @@ function Currencies({ currencies }: CurrenciesProps) {
 
     return currency.description.toLowerCase().includes(searchTextLowerCased);
   });
+
+  const handleCurrencyClick = (currency: Currency) => {
+    setSelectedCurrency(currency);
+  };
 
   return (
     <div className="currencies">
@@ -52,7 +58,11 @@ function Currencies({ currencies }: CurrenciesProps) {
         {/* Je parcours le tableau de devise filtrer par rapport au searchText */}
         {currenciesFiltered.map((currency) => (
           <li className="currencies__item" key={currency.code}>
-            <button type="button" className="currencies__item-btn">
+            <button
+              type="button"
+              className="currencies__item-btn"
+              onClick={() => handleCurrencyClick(currency)}
+            >
               {currency.description}
             </button>
           </li>

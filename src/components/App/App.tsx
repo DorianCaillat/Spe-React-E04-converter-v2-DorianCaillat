@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Currency } from '../Currencies/Currencies';
 import BaseAmount from '../BaseAmount/BaseAmount';
 import Currencies from '../Currencies/Currencies';
 import ResultConversion from '../ResultConversion/ResultConversion';
@@ -14,15 +15,22 @@ function App() {
   // et une fonction pour modifier la valeur
   // La convention veux que la fonction de modification se nomme `set` + le nom de la variable
   const [likesCount, setLikesCount] = useState(0);
+  const [selectedCurrency, setSelectedCurrency] = useState<Currency | null>(
+    null
+  );
 
   return (
     <div className="app">
       <BaseAmount />
       {/* Je fournis la liste des currencies récupérer depuis mon fichier data/currencies.js */}
       <Currencies currencies={currenciesData} />
-      <ResultConversion />
+      <ResultConversion selectedCurrency={selectedCurrency} />
 
-      <Footer likesCount={likesCount} setLikesCount={setLikesCount} />
+      <Footer
+        likesCount={likesCount}
+        setLikesCount={setLikesCount}
+        selectedCurrency={selectedCurrency}
+      />
     </div>
   );
 }
